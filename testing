@@ -1,1 +1,237 @@
-here i will come to test my codes texts
+
+(() => {
+  "use strict";
+
+  const $ = id => document.getElementById(id);
+
+  const STORAGE_KEY = "nova.tasks.v1";
+
+  let tasks = [];
+  let remainingSeconds = 25 * 60;
+  let timerInterval = null;
+
+  let focusMinutes = Number(
+    localStorage.getItem("nova.focusMinutes") || 0
+  );
+
+  try {
+    tasks = JSON.parse(
+      localStorage.getItem(STORAGE_KEY) || "[]"
+    );
+  } catch {
+    tasks = [];
+  }
+
+  const quotes = [
+    "Small progress is still progress. Keep going.",
+    "Focus on the next useful thing.",
+    "Done is better than endlessly waiting for perfect.",
+    "Make today a little better than yesterday.",
+    "Great things take time. Stay consistent.",
+    "Your future is created by what you do today."
+  ];
+
+  function saveTasks() {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(tasks)
+    );
+  }
+
+  function renderTasks() {
+    const list = $("taskList");
+
+    const completed = tasks.filter(t => t.done).length;
+
+    $("completedCount").textContent = completed;
+    $("remainingCount").textContent =
+      tasks.length - completed;
+
+    $("taskPill").textContent =
+      `${tasks.length} ${tasks.length === 1 ? "task" : "tasks"}`;
+
+    if (!tasks.length) {
+      list.innerHTML = `
+        <div class="empty-state">
+          <span>✧</span>
+          <strong>Your list is a blank canvas.</strong>
+          <p>Add your first task and make today count.</p>
+        </div>
+      `;
+      return;
+    }
+
+    list.replaceChildren();
+
+    tasks.forEach(task => {
+      const row = document.createElement("div");
+
+      row.className =
+        `task-item${task.done ? " done" : ""}`;
+
+      const check = document.createElement("input");
+      check.type = "checkbox";
+      check.checked = task.done;
+
+      check.addEventListener("change", () => {
+        task.done = check.checked;
+        saveTasks();
+        renderTasks();
+      });
+
+      const label = document.createElement("span");
+      label.textContent = task.text;
+
+      const remove = document.createElement("button");
+      remove.className = "delete-task";
+      remove.type = "button";
+      remove.textContent = "×";
+
+      remove.addEventListener("click", () => {
+        tasks = tasks.filter(t => t.id !== task.id);
+        saveTasks();
+        renderTasks();
+      });
+
+      row.append(check, label, remove);
+      list.append(row);
+    });
+  }
+
+  function updateTimer() {
+    const minutes = Math.floor(remainingSeconds / 60);
+    const seconds = remainingSeconds % 60;
+
+    $("timerDisplay").textContent =
+      `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+    const progress = remainingSeconds / (25 * 60);
+
+    $("timerProgress").style.strokeDashoffset =
+      String(490.1 * (1 - progress));
+  }
+
+  function stopTimer() {
+    if (timerInterval) {
+      clearInterval(timerInterval);
+    }
+
+    timerInterval = null;
+    $("timerStart").textContent = "Resume focus";
+  }
+
+  $("timerStart").addEventListener("click", () => {
+    if (timerInterval) {
+      stopTimer();
+      return;
+    }
+
+    if (remainingSeconds <= 0) {
+      remainingSeconds = 25 * 60;
+    }
+
+    $("timerStart").textContent = "Pause";
+
+    timerInterval = setInterval(() => {
+      remainingSeconds--;
+
+      updateTimer();
+
+      if (remainingSeconds <= 0) {
+        stopTimer();
+
+        focusMinutes += 25;
+
+        localStorage.setItem(
+          "nova.focusMinutes",
+          String(focusMinutes)
+        );
+
+        $("focusCount").textContent = focusMinutes;
+        $("timerStart").textContent = "Start again";
+
+        alert("Focus session complete. Take a short break!");
+      }
+    }, 1000);
+  });
+
+  $("timerReset").addEventListener("click", () => {
+    stopTimer();
+
+    remainingSeconds = 25 * 60;
+
+    $("timerStart").textContent = "Start focus";
+
+    updateTimer();
+  });
+
+  $("taskForm").addEventListener("submit", event => {
+    event.preventDefault();
+
+    const input = $("taskInput");
+    const text = input.value.trim();
+
+    if (!text) {
+      input.focus();
+      return;
+    }
+
+    tasks.unshift({
+      id: `${Date.now()}-${Math.random()}`,
+      text,
+      done: false
+    });
+
+    saveTasks();
+    renderTasks();
+
+    input.value = "";
+    input.focus();
+  });
+
+  $("themeToggle").addEventListener("click", () => {
+    document.body.classList.toggle("light-mode");
+
+    localStorage.setItem(
+      "nova.theme",
+      document.body.classList.contains("light-mode")
+        ? "light"
+        : "dark"
+    );
+  });
+
+  if (localStorage.getItem("nova.theme") === "light") {
+    document.body.classList.add("light-mode");
+  }
+
+  $("newQuote").addEventListener("click", () => {
+    const current = $("quoteText").textContent;
+
+    const available = quotes.filter(q => q !== current);
+
+    $("quoteText").textContent =
+      available[Math.floor(Math.random() * available.length)];
+  });
+
+  const now = new Date();
+
+  $("dayLabel").textContent =
+    now.toLocaleDateString(undefined, {
+      weekday: "long"
+    }).toUpperCase();
+
+  $("dateLabel").textContent =
+    now.toLocaleDateString(undefined, {
+      month: "short",
+      day: "numeric",
+      year: "numeric"
+    });
+
+  $("year").textContent = now.getFullYear();
+
+  $("focusCount").textContent = focusMinutes;
+
+  renderTasks();
+  updateTimer();
+
+})();

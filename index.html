@@ -1,11 +1,180 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090e1c">
+  <title>NOVA — Productivity Dashboard</title>
+
+  <link rel="icon" href="builds/img.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    
+
+<div class="ambient ambient-one"></div>
+<div class="ambient ambient-two"></div>
+
+<header class="topbar">
+  <a class="brand" href="#">
+    <span class="brand-mark">✦</span> NOVA<span class="brand-dot">.</span>
+  </a>
+
+  <nav class="nav-links">
+    <a class="active" href="#overview">Overview</a>
+    <a href="#workspace">Workspace</a>
+    <a href="#focus">Focus</a>
+  </nav>
+
+  <div class="top-actions">
+    <button class="icon-button" id="themeToggle">☼</button>
+    <div class="avatar">N</div>
+  </div>
+</header>
+
+<main class="shell" id="overview">
+
+  <section class="welcome-row">
+    <div>
+      <p class="eyebrow">✦ YOUR PERSONAL SPACE</p>
+      <h1>Make room for<br>
+        <span class="gradient-text">great ideas.</span>
+      </h1>
+      <p class="subheading">
+        A little clarity goes a long way. Pick one thing,
+        start small, and build momentum.
+      </p>
+    </div>
+
+    <div class="date-card">
+      <span class="date-icon">✧</span>
+      <div>
+        <span id="dayLabel">TODAY</span>
+        <strong id="dateLabel">Your day, your pace.</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-grid">
+    <article class="stat-card">
+      <span class="stat-icon purple">✦</span>
+      <p>Tasks completed</p>
+      <strong id="completedCount">0</strong>
+      <small>Keep your momentum</small>
+    </article>
+
+    <article class="stat-card">
+      <span class="stat-icon cyan">◷</span>
+      <p>Focus minutes</p>
+      <strong id="focusCount">0</strong>
+      <small>One session at a time</small>
+    </article>
+
+    <article class="stat-card">
+      <span class="stat-icon amber">↗</span>
+      <p>Tasks remaining</p>
+      <strong id="remainingCount">0</strong>
+      <small>You've got this</small>
+    </article>
+  </section>
+
+  <section class="content-grid" id="workspace">
+
+    <article class="panel tasks-panel">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">YOUR WORKSPACE</p>
+          <h2>Today's priorities</h2>
+        </div>
+        <span class="pill" id="taskPill">0 tasks</span>
+      </div>
+
+      <form id="taskForm" class="task-form">
+        <input id="taskInput"
+          maxlength="90"
+          placeholder="Add something you want to finish..."
+          autocomplete="off">
+        <button class="primary-button" type="submit">
+          ＋ Add task
+        </button>
+      </form>
+
+      <div class="task-list" id="taskList">
+        <div class="empty-state">
+          <span>✧</span>
+          <strong>Your list is a blank canvas.</strong>
+          <p>Add your first task and make today count.</p>
+        </div>
+      </div>
+    </article>
+
+    <aside class="side-column">
+
+      <article class="panel focus-panel" id="focus">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">DEEP WORK</p>
+            <h2>Focus room</h2>
+          </div>
+          <span class="focus-badge">✦ FLOW</span>
+        </div>
+
+        <p class="focus-copy">
+          Give one important thing your undivided attention.
+        </p>
+
+        <div class="timer-wrap">
+          <svg class="timer-ring" viewBox="0 0 180 180">
+            <circle class="ring-track" cx="90" cy="90" r="78"/>
+            <circle class="ring-progress" id="timerProgress"
+              cx="90" cy="90" r="78"/>
+          </svg>
+
+          <div class="timer-text">
+            <strong id="timerDisplay">25:00</strong>
+            <span>MINUTES</span>
+          </div>
+        </div>
+
+        <div class="timer-controls">
+          <button class="primary-button" id="timerStart">
+            Start focus
+          </button>
+          <button class="secondary-button" id="timerReset">
+            Reset
+          </button>
+        </div>
+
+        <div class="session-note">
+          25 min focus <span>•</span> 5 min break recommended
+        </div>
+      </article>
+
+      <article class="quote-card">
+        <span class="quote-mark">“</span>
+        <p id="quoteText">
+          You don't have to see the whole staircase.
+          Just take the first step.
+        </p>
+        <span class="quote-author">A NOTE TO YOURSELF</span>
+        <button id="newQuote" class="quote-refresh">↻</button>
+      </article>
+
+    </aside>
+  </section>
+
+  <footer>
+    <span>© <span id="year"></span> NOVA STUDIO</span>
+    <span>Made for progress, not pressure. ✦</span>
+  </footer>
+
+</main>
+
+<script src="testing" defer></script>
 </body>
 </html>

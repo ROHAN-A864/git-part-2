@@ -1,3 +1,60 @@
-*{
-    margin: o;
+
+/* Additional theme and interaction styles */
+
+body.light-mode {
+  --bg: #f2f4fb;
+  --panel: rgba(255,255,255,.85);
+  --border: rgba(50,64,100,.13);
+  --text: #1c2340;
+  --muted: #66718d;
+
+  background: var(--bg);
+  color: var(--text);
+}
+
+body.light-mode .task-form input {
+  background: #f5f7fc;
+  color: var(--text);
+}
+
+body.light-mode .task-item {
+  background: rgba(40,55,90,.035);
+}
+
+body.light-mode .secondary-button {
+  color: var(--text);
+}
+
+body.light-mode .quote-card {
+  background: linear-gradient(
+    125deg,
+    rgba(155,140,255,.16),
+    rgba(85,214,232,.12)
+  );
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: rgba(155,140,255,.35);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.task-item {
+  animation: slideIn .25s ease;
 }

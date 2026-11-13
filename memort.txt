@@ -1,1 +1,19 @@
-so guys as you all know that i am going to practise git in this part 2, here i will telll you all my side story
+
+NOVA PROJECT MEMORY
+
+NEXT DEVELOPMENT STEPS
+
+1. Add user registration and login.
+2. Add a database for user-specific tasks.
+3. Add weekly productivity charts.
+4. Add custom focus timer durations.
+5. Add task categories.
+6. Add task deadlines.
+7. Add calendar integration.
+8. Add profile customization.
+9. Add cloud synchronization.
+10. Improve animations and transitions.
+
+IMPORTANT:
+Never expose API keys or database credentials
+in public frontend JavaScript.

@@ -1,1 +1,22 @@
-so guys this is the testing file here i will come here to test my codes so not to worry about it
+
+NOVA PROJECT NOTES
+
+Project: Personal Productivity Dashboard
+
+Features:
+1. Task manager
+2. Add and delete tasks
+3. Complete tasks
+4. Pomodoro focus timer
+5. Focus minute tracking
+6. Light and dark themes
+7. Motivational quotes
+8. Responsive design
+9. Browser-based data storage
+
+Technology:
+HTML
+CSS
+JavaScript
+
+No backend required for the current version.
